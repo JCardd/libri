@@ -5,7 +5,7 @@ import { Plus } from "lucide-react";
 
 const Hero = () => {
     return (
-        <section className="px-6 pt-24 pb-12 w-full max-w-[1440px] mx-auto mb-10 md:mb-16">
+        <section className="px-6 pb-12 w-full max-w-[1440px] mx-auto mb-10 md:mb-16">
             <div className="bg-[#dccfb4] rounded-[24px] p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
                 {/* Left Section */}
                 <div className="flex-1 z-10 space-y-4">
