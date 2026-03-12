@@ -2,7 +2,7 @@ import {IBook, Messages} from "@/types";
 import {useAuth} from "@clerk/nextjs";
 import {useEffect, useRef, useState} from "react";
 import {ASSISTANT_ID} from "@/lib/constants";
-import {startVoiceSession} from "@/lib/actions/session.actions";
+import {endVoiceSession, startVoiceSession} from "@/lib/actions/session.actions";
 import Vapi from '@vapi-ai/web';
 
 export type CallStatus = 'idle' | 'connecting' | 'starting' | 'listening' | 'thinking' | 'speaking';
@@ -170,7 +170,11 @@ export const useVapi = (book: IBook) => {
                 //}
             })
         } catch (e) {
-            console.error('Error starting call', e);
+            console.error('Error starting call:', e);
+            if (sessionIdRef.current) {
+                endVoiceSession(sessionIdRef.current, 0).catch((endErr) => console.error('Failed to rollback voice session after start failure:', endErr));
+                sessionIdRef.current = null;
+            }
             setStatus('idle');
             setLimitError('An error occurred while starting the call.');
         }
