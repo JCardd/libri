@@ -2,7 +2,6 @@ import React from 'react'
 import Hero from "@/components/Hero";
 import BookCard from "@/components/BookCard";
 import {getAllBooks} from "@/lib/actions/book.actions";
-import {sampleBooks} from "@/lib/constants";
 
 const Page = async() => {
     const bookResults = await getAllBooks()
