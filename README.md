@@ -6,12 +6,12 @@
 
 ## 📖 Table of Contents
 
-* [Project Overview]
-* [Tech Stack]
-* [Key Features]
-* [Folder Structure]
-* [Lessons Learned]
-* [Getting Started]
+* Project Overview
+* Tech Stack
+* Key Features
+* Folder Structure
+* Lessons Learned
+* Getting Started
 -----
 
 ## 🎯 Project Overview
