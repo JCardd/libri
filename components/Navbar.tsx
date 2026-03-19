@@ -10,6 +10,7 @@ import { SignInButton, SignUpButton, UserButton, Show, useUser } from "@clerk/ne
 const navItems = [
     { label: "Library", href: "/" },
     { label: "Add New", href: "/books/new" },
+    { label: "Pricing", href: "/subscriptions" },
 ]
 
 const Navbar = () => {

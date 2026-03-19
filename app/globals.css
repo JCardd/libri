@@ -1,6 +1,30 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+.pricing-table-container {
+  @apply mx-auto max-w-6xl;
+}
+
+.cl-pricingTable {
+  --cl-color-primary: var(--text-primary);
+  --cl-font-family: var(--font-mona-sans);
+  --cl-font-family-title: var(--font-ibm-plex-serif);
+  --cl-border-radius: var(--radius);
+  --cl-background: var(--bg-card);
+}
+
+.cl-pricingTable-card {
+  @apply border border-border-subtle shadow-soft;
+}
+
+.cl-pricingTable-card--highlighted {
+  @apply border-2 border-primary;
+}
+
+.cl-pricingTable-button {
+  @apply font-semibold;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -24,7 +48,12 @@
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
   --color-destructive: var(--destructive);
+  --shadow-soft: var(--shadow-soft);
+  --shadow-soft-sm: var(--shadow-soft-sm);
+  --shadow-soft-md: var(--shadow-soft-md);
+  --shadow-soft-lg: var(--shadow-soft-lg);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);

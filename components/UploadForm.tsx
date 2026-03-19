@@ -134,7 +134,7 @@ const UploadForm = () => {
                 coverURL = uploadedCoverBlob.url;
             }
 
-            const book = await createBook({
+            const result = await createBook({
                 clerkId: userId,
                 title: data.title,
                 author: data.author,
@@ -145,7 +145,15 @@ const UploadForm = () => {
                 fileSize: pdfFile.size,
             });
 
-            if (!book.success) throw new Error("Failed to create book");
+            if (!result.success) {
+                toast.error(result.error as string || "Failed to create book. Please try again.");
+                if (result.isBillingError) {
+                    router.push("/subscriptions");
+                }
+                return;
+            }
+
+            const book = result;
 
             if (book.alreadyExists) {
                 toast.info("Book with the same title already exists.");
