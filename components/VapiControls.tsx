@@ -8,7 +8,7 @@ import React from "react";
 import Transcript from "@/components/Transcript";
 
 const VapiControls = ({ book } : { book: IBook }) => {
-    const { status, isActive, messages, currentMessage, currentUserMessage, duration, start, stop } = useVapi(book);
+    const { status, isActive, messages, currentMessage, currentUserMessage, duration, start, stop, maxDurationMinutes } = useVapi(book);
 
     return (
         <>
@@ -60,7 +60,9 @@ const VapiControls = ({ book } : { book: IBook }) => {
                                 <span className="vapi-status-text">Voice: {book.persona || 'Daniel'}</span>
                             </div>
                             <div className="vapi-status-indicator">
-                                <span className="vapi-status-text">{Math.floor(duration / 60)}:{String(duration % 60).padStart(2, '0')}/15:00</span>
+                                <span className="vapi-status-text">
+                                    {Math.floor(duration / 60)}:{String(duration % 60).padStart(2, '0')}/{String(maxDurationMinutes).padStart(2, '0')}:00
+                                </span>
                             </div>
                         </div>
                     </div>

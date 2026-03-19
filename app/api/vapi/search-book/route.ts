@@ -22,7 +22,10 @@ async function processBookSearch(bookId: unknown, query: unknown) {
     const searchResult = await searchBookSegments(bookIdStr, queryStr, 3);
 
     // Return results
-    if (!searchResult.success || !searchResult.data?.length) {
+    if (!searchResult.success) {
+        return { result: 'Error searching this book right now.' };
+    }
+    if (!searchResult.data?.length) {
         return { result: 'No information found about this topic in the book.' };
     }
 
@@ -94,8 +97,9 @@ export async function POST(request: Request) {
         return NextResponse.json({ results });
     } catch (error) {
         console.error('Vapi search-book error:', error);
-        return NextResponse.json({
-            results: [{ result: 'Error processing request' }],
-        });
+        return NextResponse.json(
+            { results: [{ result: 'Error processing request' }] },
+            { status: 500 }
+        );
     }
 }

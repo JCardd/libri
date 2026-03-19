@@ -7,12 +7,20 @@ import Book from "@/database/models/book.model";
 import BookSegment from "@/database/models/book-segment.model";
 import mongoose from "mongoose";
 import {revalidatePath} from "next/cache";
+import {getPlanLimits, getUserPlan} from "@/lib/plan-utils";
 
-export const getAllBooks = async() => {
+export const getAllBooks = async(query?: string) => {
     try {
         await connectToDatabase();
 
-        const books = await Book.find().sort({createdAt: -1}).lean();
+        const filter = query ? {
+            $or: [
+                { title: { $regex: escapeRegex(query), $options: 'i' } },
+                { author: { $regex: escapeRegex(query), $options: 'i' } }
+            ]
+        } : {};
+
+        const books = await Book.find(filter).sort({createdAt: -1}).lean();
 
         return {
             success: true,
@@ -70,6 +78,20 @@ export const createBook = async(data: CreateBook) => {
         }
 
         //! Todo: Check subscription limits before creating a book.
+        const plan = await getUserPlan();
+        const limits = await getPlanLimits();
+        const userBooksCount = await Book.countDocuments({ clerkId: data.clerkId });
+
+        if (userBooksCount >= limits.maxBooks) {
+            const { revalidatePath } = await import("next/cache");
+            revalidatePath("/");
+
+            return {
+                success: false,
+                error: `You have reached the maximum number of books allowed for your ${plan} plan (${limits.maxBooks}). Please upgrade to add more books.`,
+                isBillingError: true,
+            };
+        }
 
         const book = await Book.create({ ...data, slug, totalSegments: 0, });
 
