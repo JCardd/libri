@@ -9,11 +9,18 @@ import mongoose from "mongoose";
 import {revalidatePath} from "next/cache";
 import {getPlanLimits, getUserPlan} from "@/lib/plan-utils";
 
-export const getAllBooks = async() => {
+export const getAllBooks = async(query?: string) => {
     try {
         await connectToDatabase();
 
-        const books = await Book.find().sort({createdAt: -1}).lean();
+        const filter = query ? {
+            $or: [
+                { title: { $regex: escapeRegex(query), $options: 'i' } },
+                { author: { $regex: escapeRegex(query), $options: 'i' } }
+            ]
+        } : {};
+
+        const books = await Book.find(filter).sort({createdAt: -1}).lean();
 
         return {
             success: true,

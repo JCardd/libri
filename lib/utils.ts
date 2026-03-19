@@ -92,6 +92,10 @@ export const formatDuration = (seconds: number): string => {
 
 export async function parsePDFFile(file: File) {
   try {
+    if (typeof document === 'undefined') {
+      throw new Error('parsePDFFile can only be used in a browser environment');
+    }
+
     const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs');
 
     if (typeof window !== 'undefined') {
@@ -121,7 +125,7 @@ export async function parsePDFFile(file: File) {
       throw new Error('Could not get canvas context');
     }
 
-    await (firstPage as any).render({
+    await firstPage.render({
       canvasContext: context,
       viewport: viewport,
       canvas: canvas,
